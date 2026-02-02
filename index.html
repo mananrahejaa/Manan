@@ -2,10 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Foooooddddddd???????</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Question 💖</title>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 <style>
     body {
         height: 100vh;
+        margin: 0;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -13,57 +18,137 @@
         font-family: Arial, sans-serif;
         overflow: hidden;
     }
+
     .card {
-        background: pink;
-        padding: 30px 40px;
-        border-radius: 15px;
+        background: Yellow;
+        padding: 30px 35px;
+        border-radius: 18px;
         text-align: center;
         box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        width: 90%;
+        max-width: 320px;
+        position: relative;
     }
-    h1 { margin-bottom: 25px; }
+
+    h1 {
+        margin-bottom: 10px;
+    }
+
+    .emoji {
+        font-size: 90px;
+        margin: 15px 0;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 25px;
+    }
+
     button {
-        padding: 12px 25px;
+        padding: 14px 28px;
         font-size: 16px;
         border: none;
         border-radius: 8px;
         cursor: pointer;
-        margin: 10px;
+        transition: transform 0.2s ease;
     }
+
     #yes {
         background: #ff4d6d;
         color: white;
     }
+
+    #yes:active {
+        transform: scale(1.1);
+    }
+
     #no {
         background: #adb5bd;
-        position: absolute;
+        transition: left 0.3s ease, top 0.3s ease;
+    }
+
+    .hint {
+        margin-top: 22px;
+        font-size: 0.9rem;
+        color: #666;
+        font-style: italic;
+    }
+
+    .loader {
+        font-size: 1.1rem;
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        50% { opacity: 0.4; }
     }
 </style>
 </head>
 <body>
 
-<div class="card">
-    <h1>You want me to order something good? 💖</h1>
-    <button id="yes">Yes</button>
-    <button id="no">No</button>
+<div class="card" id="card">
+    <h1>Nandiniiii Can I order something for youuuuu????👉🥺👈? 💖</h1>
+
+    <div class="emoji">🍫</div>
+
+    <div class="buttons">
+        <button id="yes">YESSSSSS🥹</button>
+        <button id="no">NOI🥺</button>
+    </div>
+
+    <div class="hint">Noi seems to be untouched</div>
 </div>
 
 <script>
-    const noBtn = document.getElementById("no");
+const noBtn = document.getElementById("no");
+let floating = false;
 
-    noBtn.addEventListener("mouseover", () => {
-        const x = Math.random() * (window.innerWidth - 100);
-        const y = Math.random() * (window.innerHeight - 50);
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
-    });
+noBtn.addEventListener("click", () => {
+    if (!floating) {
+        // convert to floating button on first tap
+        const rect = noBtn.getBoundingClientRect();
+        noBtn.style.position = "fixed";
+        noBtn.style.left = rect.left + "px";
+        noBtn.style.top = rect.top + "px";
+        floating = true;
+    }
 
-    document.getElementById("yes").addEventListener("click", () => {
-        document.body.innerHTML = `
-            <h1 style="font-size:3rem;color:white;">
-                🎉 Congratulations! 💖<br>
-                Your order confirmed 😘
-            </h1>`;
-    });
+    const padding = 80;
+    const x = Math.random() * (window.innerWidth - padding);
+    const y = Math.random() * (window.innerHeight - padding);
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+document.getElementById("yes").addEventListener("click", () => {
+    const card = document.getElementById("card");
+
+    card.innerHTML = `<div class="loader">Confirming your answer… 💭</div>`;
+
+    setTimeout(() => {
+        card.innerHTML = `
+            <h1>🎉 It’s a YES! Doing it right awayyyy🥹💖</h1>
+            <p style="font-size:1.3rem;">Chocolate secured 😘</p>
+        `;
+
+        confetti({
+            particleCount: 220,
+            spread: 90,
+            origin: { y: 0.6 }
+        });
+
+        setTimeout(() => {
+            confetti({
+                particleCount: 160,
+                spread: 120,
+                origin: { y: 0.4 }
+            });
+        }, 600);
+
+    }, 1600);
+});
 </script>
 
 </body>
